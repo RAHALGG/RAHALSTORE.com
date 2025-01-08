@@ -14,13 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     burger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
         burger.classList.toggle('toggle');
-        if (navLinks.classList.contains('active')) {
-            navLinks.classList.add('fade-in');
-            navLinks.classList.remove('fade-out');
-        } else {
-            navLinks.classList.add('fade-out');
-            navLinks.classList.remove('fade-in');
-        }
     });
 
     // Debounce function for search input
@@ -96,6 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Function to hide cart modal
+    const hideCartModal = () => {
+        cartModal.style.display = 'none';
+        cartModal.classList.remove('open', 'close');
+    };
+
     // Show cart modal with animation
     cartButton.addEventListener('click', () => {
         updateCartModal();
@@ -106,19 +105,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close cart modal with animation
     closeCart.addEventListener('click', () => {
         cartModal.classList.add('close');
-        cartModal.addEventListener('animationend', () => {
-            cartModal.style.display = 'none';
-            cartModal.classList.remove('open', 'close');
-        }, { once: true });
+    });
+
+    // Ensure modal is hidden after close animation
+    cartModal.addEventListener('animationend', (event) => {
+        if (event.animationName === 'fadeOut') {
+            hideCartModal();
+        }
     });
 
     window.addEventListener('click', (event) => {
         if (event.target === cartModal) {
             cartModal.classList.add('close');
-            cartModal.addEventListener('animationend', () => {
-                cartModal.style.display = 'none';
-                cartModal.classList.remove('open', 'close');
-            }, { once: true });
         }
     });
 
