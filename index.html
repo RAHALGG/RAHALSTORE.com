@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <meta name="description" content="Rahal Store - Your one-stop shop for all your needs.">
     <meta name="keywords" content="store, products, shop, Rahal Store">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400&display=swap">
 </head>
 <body>
     <header>
@@ -34,18 +35,28 @@
         <input type="text" id="search" placeholder="Search for products...">
         <section class="product-list" id="products">
             <div class="product" data-date="2025-01-01">
-                <img src="product1.jpg" alt="Product 1 image">
-                <h2>Product 1</h2>
-                <p>$19.99</p>
-                <a href="https://www.aliexpress.com/item/example" target="_blank" class="btn">Buy Now</a>
-                <button class="add-to-cart" data-product="Product 1" data-price="19.99">Add to Cart</button>
+                <div class="product-image">
+                    <img src="https://d1ncau8tqf99kp.cloudfront.net/360/M5_360view/WF-1000XM5_black_3600000_web.png" alt="Product 1 image">
+                </div>
+                <div class="product-info">
+                    <h2>Product 1</h2>
+                    <p class="description">This is an amazing product that will help you in many ways.</p>
+                    <p class="price">$19.99</p>
+                    <a href="https://www.aliexpress.com/item/example" target="_blank" class="btn">Buy Now</a>
+                    <button class="add-to-cart" data-product="Product 1" data-price="19.99">Add to Cart</button>
+                </div>
             </div>
             <div class="product" data-date="2025-01-02">
-                <img src="product2.jpg" alt="Product 2 image">
-                <h2>Product 2</h2>
-                <p>$29.99</p>
-                <a href="https://www.aliexpress.com/item/example" target="_blank" class="btn">Buy Now</a>
-                <button class="add-to-cart" data-product="Product 2" data-price="29.99">Add to Cart</button>
+                <div class="product-image">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/024/841/285/small_2x/wireless-headphone-isolated-on-transparent-background-high-quality-bluetooth-headphone-for-advertising-and-product-catalogs-generative-ai-png.png" alt="Product 2 image">
+                </div>
+                <div class="product-info">
+                    <h2>Product 2</h2>
+                    <p class="description">This product offers great value and excellent quality.</p>
+                    <p class="price">$29.99</p>
+                    <a href="https://www.aliexpress.com/item/example" target="_blank" class="btn">Buy Now</a>
+                    <button class="add-to-cart" data-product="Product 2" data-price="29.99">Add to Cart</button>
+                </div>
             </div>
         </section>
         
@@ -61,6 +72,7 @@
     <footer>
         <p>&copy; 2025 Rahal Store. All rights reserved.</p>
     </footer>
+    <button id="go-to-top">&#8679;</button>
     <script src="scripts.js"></script>
 </body>
 </html>

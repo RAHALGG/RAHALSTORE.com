@@ -114,8 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Close modal when clicking outside the cart content
     window.addEventListener('click', (event) => {
-        if (event.target === cartModal) {
+        if (event.target === cartModal && cartModal.classList.contains('open')) {
             cartModal.classList.add('close');
         }
     });
@@ -181,9 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Page load animation
-    document.body.classList.add('page-load-animation');
-    setTimeout(() => {
-        document.body.classList.remove('page-load-animation');
-    }, 1000);
+    // Ensure body is visible immediately without page load animation
+    document.body.classList.remove('page-load-animation');
 });
