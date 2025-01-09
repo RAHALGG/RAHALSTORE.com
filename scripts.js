@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Elements selection
     const burger = document.querySelector('.burger');
     const navLinks = document.querySelector('.nav-links');
     const cartButton = document.querySelector('#cart-button');
@@ -10,7 +11,63 @@ document.addEventListener('DOMContentLoaded', () => {
     let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     let cartCount = cartItems.length;
 
-    // Toggle Mobile and Tablet Navigation
+    // Update cart count initially
+    const updateCartCount = () => {
+        cartButton.textContent = `Cart (${cartCount})`;
+    };
+
+    // Save cart items to local storage
+    const saveCartItems = () => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    };
+
+    // Function to add product to cart
+    const addToCart = (product) => {
+        const productName = product.querySelector('h2').textContent;
+        const productPrice = product.querySelector('.price b').textContent;
+        cartItems.push({ name: productName, price: productPrice });
+        saveCartItems();
+        cartCount++;
+        updateCartCount();
+        updateCartModal();
+
+        // Add animation to cart button
+        cartButton.classList.add('cart-text-animation');
+        cartButton.style.color = 'var(--highlight-color)';
+
+        // Remove animation class after animation ends
+        setTimeout(() => {
+            cartButton.classList.remove('cart-text-animation');
+            cartButton.style.color = '';
+        }, 1000);
+    };
+
+    // Function to update cart modal content
+    const updateCartModal = () => {
+        cartItemsList.innerHTML = '';
+        if (cartItems.length === 0) {
+            const emptyMessage = document.createElement('p');
+            emptyMessage.textContent = 'Cart is empty';
+            emptyMessage.classList.add('empty-message');
+            cartItemsList.appendChild(emptyMessage);
+            removeAllButton.style.display = 'none';
+        } else {
+            removeAllButton.style.display = 'block';
+            cartItems.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `${item.name} - ${item.price} <button class="remove-item" data-index="${index}">Remove</button>`;
+                cartItemsList.appendChild(listItem);
+            });
+        }
+    };
+
+    // Function to hide cart modal
+    const hideCartModal = () => {
+        cartModal.style.display = 'none';
+        cartModal.classList.remove('open', 'close');
+    };
+
+    // Event listener to toggle navigation for mobile and tablet
     burger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
         burger.classList.toggle('toggle');
@@ -31,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleSearch = (event) => {
         const query = event.target.value.toLowerCase();
         const products = document.querySelectorAll('.product');
-
+        
         products.forEach(product => {
             const productName = product.querySelector('h2').textContent.toLowerCase();
             product.style.display = productName.includes(query) ? 'block' : 'none';
@@ -40,93 +97,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchInput.addEventListener('input', debounce(handleSearch, 300));
 
-    // Update cart count
-    const updateCartCount = () => {
-        cartButton.textContent = `Cart (${cartCount})`;
-    };
-
-    // Save cart items to local storage
-    const saveCartItems = () => {
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    };
-
-    // Add product to cart with animation in cart section
-    const addToCart = (product) => {
-        const productName = product.querySelector('h2').textContent;
-        const productPrice = product.querySelector('p').textContent;
-        cartItems.push({ name: productName, price: productPrice });
-        saveCartItems();
-        cartCount++;
-        updateCartCount();
-
-        // Add animation to the cart text and change color
-        cartButton.classList.add('cart-text-animation');
-        cartButton.style.color = 'var(--highlight-color)';
-
-        // Remove animation class and reset color after animation ends
-        setTimeout(() => {
-            cartButton.classList.remove('cart-text-animation');
-            cartButton.style.color = '';
-        }, 1000);
-    };
-
-    // Add event listeners to "Add to Cart" buttons
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const product = button.closest('.product');
-            addToCart(product);
-        });
-    });
-
-    // Update cart modal
-    const updateCartModal = () => {
-        cartItemsList.innerHTML = '';
-        cartItems.forEach((item, index) => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `${item.name} - ${item.price} <button class="remove-item" data-index="${index}">Remove</button>`;
-            cartItemsList.appendChild(listItem);
-        });
-    };
-
-    // Function to hide cart modal
-    const hideCartModal = () => {
-        cartModal.style.display = 'none';
-        cartModal.classList.remove('open', 'close');
-    };
-
-    // Show cart modal with animation
+    // Show cart modal
     cartButton.addEventListener('click', () => {
         updateCartModal();
         cartModal.classList.add('open');
         cartModal.style.display = 'block';
     });
 
-    // Close cart modal with animation
+    // Close cart modal
     closeCart.addEventListener('click', () => {
-        cartModal.classList.add('close');
-    });
-
-    // Ensure modal is hidden after close animation
-    cartModal.addEventListener('animationend', (event) => {
-        if (event.animationName === 'fadeOut') {
-            hideCartModal();
-        }
+        hideCartModal();
     });
 
     // Close modal when clicking outside the cart content
     window.addEventListener('click', (event) => {
         if (event.target === cartModal && cartModal.classList.contains('open')) {
-            cartModal.classList.add('close');
+            hideCartModal();
         }
     });
 
-    // Event delegation for removing cart items with animation
+    // Event delegation for removing cart items
     cartItemsList.addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-item')) {
             const index = event.target.getAttribute('data-index');
             const listItem = event.target.closest('li');
-
+            
             // Add fade-out animation
             listItem.classList.add('fade-out');
             listItem.addEventListener('animationend', () => {
@@ -142,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remove all items from cart with animation
     removeAllButton.addEventListener('click', () => {
         const listItems = cartItemsList.querySelectorAll('li');
-
+        
         // Add fade-out animation to all items
         listItems.forEach((listItem, index) => {
             listItem.classList.add('fade-out');
@@ -155,6 +150,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateCartModal();
                 }
             }, { once: true });
+        });
+    });
+
+    // Add event listeners to "Add to Cart" buttons
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const product = button.closest('.product');
+            addToCart(product);
         });
     });
 

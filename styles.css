@@ -2,20 +2,23 @@
 
 /* Root Variables */
 :root {
-  --main-bg-color: #F5F7F8; /* Light gray */
-  --highlight-color: #F4CE14; /* Yellow */
-  --primary-color: #495E57; /* Dark green */
-  --secondary-color: #45474B; /* Dark gray */
+  --main-bg-color: #F5F7F8;
+  --highlight-color: #F4CE14;
+  --primary-color: #495E57;
+  --secondary-color: #45474B;
   --border-color: #ddd;
   --main-font-color: white;
   --font-family: 'Tajawal', sans-serif;
 }
-
 /* General Styles */
-body {
-  font-family: var(--font-family);
+body, html {
   margin: 0;
   padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
   background-color: var(--main-bg-color);
   transition: background-color 0.5s;
   overflow-x: hidden;
@@ -294,6 +297,7 @@ header {
   padding: 5px 10px;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-size: 0.9em;
 }
 
 #cart-items li .remove-item:hover {
@@ -326,6 +330,14 @@ header {
   background-color: var(--highlight-color);
 }
 
+/* Empty Cart Message Styles */
+.empty-message {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
 /* Keyframes */
 @keyframes fadeOut {
   0% { opacity: 1; }
@@ -345,40 +357,6 @@ header {
 .fade-out {
   animation: fadeOut 0.5s forwards;
 }
-
-/* Add to Cart Button Animation */
-.cart-text-animation {
-  animation: bounce 0.5s ease-in-out;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-/* Cart Modal Animations */
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.fade-out {
-  animation: fadeOut 0.5s forwards;
-}
-
-.cart-modal.open {
-  animation: fadeIn 0.5s forwards;
-}
-
-.cart-modal.close {
-  animation: fadeOut 0.5s forwards;
-}
-
 /* Go to Top Button */
 #go-to-top {
   display: none;
@@ -401,6 +379,7 @@ header {
   background-color: var(--secondary-color);
   transform: translateY(-2px);
 }
+
 /* Footer Styles */
 footer {
   background-color: var(--primary-color);
